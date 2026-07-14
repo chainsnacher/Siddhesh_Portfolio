@@ -1,0 +1,70 @@
+---
+title: "Fit_Track_pro"
+summary: "An Fitness App Calculates your BMI Track Your Diet Expert Ai-Bot Advice."
+images:
+  - "/images/projects/project-01/fittrackpro.jpeg"
+team:
+  - name: "Siddhesh Dange"
+    role: "Fluter Developer"
+    avatar: "/images/siddpic.jpg"
+    linkedIn: "https://www.linkedin.com/in/siddhesh-dange"
+link: ""
+---
+
+## Overview
+
+Development of **FitTrack Pro**, an offline-first personal health companion application built with **Flutter** and **Dart**. The platform integrates real-time body mass index (BMI) tracking, secure database persistence, customized nutrition advice, and an interactive AI fitness coach to deliver a seamless, responsive health companion.
+
+## Key Features
+
+- **Offline-First BMI Logging**: Captures user metrics (height and weight), calculates real-time BMI with instant health-tier categorization, and commits entries directly to local storage.
+- **Intelligent Personalization Engine**: Automatically reads user profile details and past logs to generate customized, calorie-appropriate nutritional plans.
+- **Dual-Engine AI Fitness Coach**: Features an interactive chatbot backed by custom configurations for either Google Generative AI (Gemini 1.5 Flash) or OpenAI (GPT-3.5-Turbo) to provide home remedies and target workout plans.
+- **Secure Session Validation**: Incorporates validated credential entry with cryptographic pattern checks, alongside a custom launch router ensuring persistent session states.
+
+## Architecture: Local Metric Tracking & DB Sync Flow
+
+To keep UI transitions operating at a fluid 60 frames per second, the calculation and storage pipeline runs entirely off the main thread through asynchronous Dart helpers.
+
+**1. User Input Capture: Event Trigger.** The user inputs weight in kilograms and height in centimeters, executing the calculation block dynamically.
+
+**2. Dynamic Formula Engine: Offline Categorization.** The application processes the input metrics mathematically, derives the BMI value, classifies the result (e.g., Underweight, Normal, Overweight, Obese), and updates state values in the UI.
+
+**3. Database Commit: SQL Transaction.** The calculated metrics are mapped into structured objects and loaded asynchronously into a local SQLite transactional queue.
+
+**4. Reactive Log Refresh: State Re-rendering.** The background execution resolves successfully, forcing the state of the history feed widget to update instantly with zero stutter.
+
+## Directory Structure
+
+The codebase is organized into modular services, logical views, and database helper files to enforce a strict separation of UI layout from data access logic:
+
+```
+lib/
+├── main.dart             # App configuration and Material 3 theme injection
+├── splashScreen.dart     # Routing checks and launch animation logic
+├── loginPage.dart        # Form validation and SharedPreferences credential mapping
+├── homePage.dart         # BMI calculator and local history display
+├── accountPage.dart      # User statistics feed and session termination
+├── nutrition_page.dart   # BMI-tailored diet guides and daily health card items
+├── ai_bot_page.dart      # Interactive fitness coaching chat view
+├── ai_service.dart       # Gemini 1.5 Flash SDK communication setup
+├── openai_service.dart   # OpenAI GPT-3.5-Turbo API driver logic
+└── database_helper.dart  # Sqflite schemas and relational database CRUD
+```
+
+## Technologies Used
+
+- **Flutter & Dart**: Utilized to build natively compiled interfaces using custom Material 3 configurations with customized typography through Google Fonts.
+- **Sqflite (SQLite)**: Served as the localized relational engine driving data creation, retrieval, and deletion of custom historical database structures.
+- **Google Generative AI SDK**: Integrated `gemini-1.5-flash` with system instruction prompts to act as an encouraging personal fitness coach.
+- **OpenAI Chat Engine**: Built a secondary alternate client leveraging `dart_openai` and the `gpt-3.5-turbo` model for detailed home remedies and costed diet plans.
+- **Shared Preferences**: Persisted user profile configurations, application state tracking flags, and custom runtime API keys.
+
+## Challenges and Learnings
+
+> **The API Key Persistence Desync:** Dynamic setting changes often failed to synchronize between active service instances and the stored key-value states in SharedPreferences, leading to unexpected 403 authentication crashes.
+To solve this, I designed a configuration dialog box that maps changes directly to memory values within the runtime state while concurrently updating on-disk `SharedPreferences`. By standardizing validation checks that verify keys exist before calling asynchronous API pipelines, runtime system errors are caught gracefully, offering clean error alerts inside the chat view instead of silent app crashes.
+
+## Outcome
+
+FitTrack Pro delivers a highly optimized, fully customized wellness companion. Combining low-latency local database storage with real-time AI responses achieves an exceptionally responsive app experience, presenting an efficient foundation for hybrid offline/online application development.

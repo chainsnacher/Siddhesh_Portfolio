@@ -1,0 +1,70 @@
+---
+title: "Easy_Buy_E-Commerce_website"
+summary: "EasyBuy is an elite-level Flutter application designed as a dual-sided peer-to-peer reseller marketplace and interactive arbitrage analytics platform."
+images:
+  - "/images/projects/project-01/Easybuy.jpeg"
+team:
+  - name: "Siddhesh Dange"
+    role: "Flutter Developer"
+    avatar: "/images/siddpic.jpg"
+    linkedIn: "https://www.linkedin.com/in/siddhesh-dange"
+---
+
+## Overview
+
+Development of **EasyBuy**, an elite-level, cross-platform mobile application built with **Flutter** and **Dart**. EasyBuy functions as a dual-sided peer-to-peer (P2P) reseller marketplace combined with an interactive arbitrage analytics platform, allowing users to trade items while tracking real-time market discrepancies and profitability metrics.
+
+## Key Features
+
+- **Dual-Sided Reseller Marketplace**: Seamlessly bridges buyers and sellers with an interactive bidding system, native buyer feeds, and item details.
+- **Arbitrage & Seller Analytics**: An advanced analytics dashboard featuring custom interactive charts to help sellers track profit margins, price disparities, and inventory performance.
+- **Secure, Type-Safe Navigation**: Integrated robust routing with deep-linking capability and automated route guarding based on the user's active session.
+- **Modern State Architecture**: Built on a highly maintainable, compile-time safe state management layer using code generation to ensure flawless data flow across features.
+
+## Architecture: Type-Safe Guard & Routing Flow
+
+To prevent unauthenticated users from accessing seller dashboards or bidding pipelines, EasyBuy utilizes a synchronized system between state management, secure local storage, and the router.
+
+**1. Route Trigger: GoRouter Navigation.** The user attempts to navigate to a protected route (e.g., `/dashboard`). GoRouter intercepts the navigation request before rendering the screen.
+
+**2. Auth State Check: Riverpod Provider.** The router queries the Riverpod Authentication Provider to check if the user session is active and valid.
+
+**3. Token Verification: Flutter Secure Storage.** If the in-memory auth state is uninitialized, the app securely queries the local hardware keychain to retrieve the saved JWT token.
+
+**4. Resolution / Redirect: Route Authorization.** If the token is valid, access is granted. If invalid or missing, GoRouter dynamically updates the target destination and redirects the user to `/login`.
+
+## Directory Structure
+
+The project follows a clean, feature-first architecture to separate concerns and scale the development of marketplace and analytics components independently.
+
+```
+lib/
+├── features/
+│   ├── auth/           # Authentication & Session management
+│   ├── marketplace/    # Buyer Feed, Product Details, Bidding
+│   └── dashboard/      # Seller Analytics & Custom Charts
+├── core/               # Globally shared components
+│   ├── network/        # Dio Client & Sync Logic
+│   ├── database/       # Sqflite Service
+│   ├── router/         # GoRouter Config & Shell Layout
+│   └── theme/          # AppTheme & Custom Colors
+└── main.dart           # App Entry point
+```
+
+## Technologies Used
+
+- **Flutter & Dart**: For compiling highly optimized, native iOS and Android binaries from a single codebase.
+- **Riverpod & Code Gen**: Modern state management utilizing compiler-assisted generator syntax (`@riverpod`) to eliminate boilerplate and human error.
+- **GoRouter**: Declarative, type-safe routing utilizing shell routes for persisting navigation bars across primary marketplace screens.
+- **Dio & Interceptors**: A robust HTTP client configured with custom interceptors for automatic JWT token refreshing and request/response logging.
+- **Sqflite & Secure Storage**: A dual-storage engine using SQLite for structured local relational data (product catalogs, metrics) and keychain integration for confidential credentials.
+- **Material 3 & Theme Extensions**: A cohesive design language extended with custom color palettes to handle semantic dark/light mode transitions across complex seller charts.
+
+## Challenges and Learnings
+
+> **The Synchronous Token Verification Dilemma:** Authenticating routes in `GoRouter` requires a synchronous check, whereas reading credentials from `Flutter Secure Storage` is an asynchronous operation.
+To bridge this gap, I designed a pre-initialization routine in the app entry point (`main.dart`). By bootstrapping the secure storage lookup and reading the token directly into the Riverpod auth provider *prior* to mounting the app, I ensured the navigation system had instant, synchronous access to the user's login state. This eliminated flash-of-unauthenticated-content bugs and made sure auth guards executed cleanly without stutter.
+
+## Outcome
+
+EasyBuy delivers an enterprise-grade performance benchmark on both platforms. It successfully balances a feature-rich peer-to-peer ecosystem with high-frequency calculations for arbitrage charting—providing users with a secure, offline-capable tool designed to maximize reselling efficiency.

@@ -1,0 +1,50 @@
+---
+title: "My_Notes_App"
+summary: "A sleek, fast, and completely offline-first notes application built using Flutter, Dart, and SQLite."
+images:
+  - "/images/projects/project-01/mynoteapp.jpeg"
+team:
+  - name: "Siddhesh Dange"
+    role: "Flutter Developer"
+    avatar: "/images/siddpic.jpg"
+    linkedIn: "https://www.linkedin.com/in/siddhesh-dange"
+---
+
+## Overview
+
+Development of a local, offline-first mobile note-taking application utilizing **Flutter** for cross-platform front-end development and **SQLite** for robust local database management.
+
+## Key Features
+
+- **Cross-Platform User Interface**: Built a responsive, clean UI using Flutter, focusing on a smooth user experience across both iOS and Android devices from a single codebase.
+- **Local Data Persistence**: Integrated an offline-first architecture with SQLite to allow users to create, read, update, and delete (CRUD) notes instantly without requiring an internet connection.
+- **Search and Organization**: Implemented real-time search functionality and categorization features, enabling users to efficiently sort, filter, and retrieve their saved notes.
+- **State Management and Reactivity**: Utilized reactive asynchronous streams to ensure the user interface dynamically updates in real-time as changes are made to the local database.
+
+## Database Architecture: Note Persistence Flow
+
+To ensure the UI remains buttery-smooth at 60fps, all database transactions run asynchronously. Here is how a note travels from the keyboard to disk:
+
+**1. UI Interaction: Immediate Response.** The user finishes typing and hits save. Flutter updates the local state immediately so the UI feels instantaneous.
+
+**2. Model Serialization: Dart Code.** The custom Note class serializes the note object into a raw key-value Map structure that SQLite can easily digest.
+
+**3. Database Queue: Asynchronous Task.** The app accesses the SQLite instance asynchronously using Dart's Future API, preventing the main thread (UI thread) from locking up.
+
+**4. SQL Transaction: SQLite Engine.** An INSERT or UPDATE query executes on the local SQLite file (`notes.db`), persisting the raw text, timestamp, and metadata.
+
+## Technologies Used
+
+- **Flutter**: For building a natively compiled, beautiful mobile application for iOS and Android.
+- **Dart**: As the primary programming language for handling application logic, UI layout, and asynchronous data streams.
+- **SQLite**: For structured, lightweight, and high-performance relational database storage on the device.
+- **Path Provider**: For locating and managing correct persistent storage directories across different mobile operating systems.
+
+## Challenges and Learnings
+
+> **The Blocking Thread Trap:** SQLite operations are synchronous at the database level. Calling them directly on Flutter's main UI thread causes noticeable stutter (jank) during heavy write operations.
+To overcome this, I decoupled the database layer using a **Singleton Database Helper** class. By wrapping all database CRUD transactions in Dart `Future` methods and using `async/await`, database overhead was entirely offloaded. This design pattern ensured that database queries yielded execution control back to the UI thread, keeping transitions and animations flawless.
+
+## Outcome
+
+The notes application provides a highly responsive, zero-latency user experience that functions completely offline. It serves as a reliable productivity tool, establishing a strong foundation in cross-platform mobile architecture, state synchronization, and secure local data handling.
