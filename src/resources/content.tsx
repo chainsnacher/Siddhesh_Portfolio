@@ -235,6 +235,13 @@ Volume 13 Issue 2 April 2026, Date of Publication: 21-April-2026
       },
     ],
   },
+  resume: {
+    display: true,
+    title: "Resume",
+    description: <>Download my resume to view my experience, projects, and skills.</>,
+    filePath: "/Documents/SiddheshDangeResume.pdf",
+    label: "Download Resume",
+  },
 };
 
 const blog: Blog = {

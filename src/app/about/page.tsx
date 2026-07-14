@@ -49,6 +49,11 @@ export default function About() {
       display: about.technical.display,
       items: about.technical.skills.map((skill) => skill.title),
     },
+    {
+      title: about.resume.title,
+      display: about.resume.display,
+      items: [about.resume.label],
+    },
   ];
   return (
     <Column maxWidth="m">
@@ -332,6 +337,29 @@ export default function About() {
                     )}
                   </Column>
                 ))}
+              </Column>
+            </>
+          )}
+
+          {about.resume.display && (
+            <>
+              <Heading as="h2" id={about.resume.title} variant="display-strong-s" marginBottom="m">
+                {about.resume.title}
+              </Heading>
+              <Column fillWidth gap="m" marginBottom="40">
+                <Text variant="body-default-m" onBackground="neutral-weak">
+                  {about.resume.description}
+                </Text>
+                <Row>
+                  <Button
+                    href={about.resume.filePath}
+                    download
+                    prefixIcon="document"
+                    label={about.resume.label}
+                    size="m"
+                    variant="secondary"
+                  />
+                </Row>
               </Column>
             </>
           )}

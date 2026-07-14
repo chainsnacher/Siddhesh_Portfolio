@@ -215,6 +215,19 @@ export interface About extends BasePageConfig {
       }>;
     }>;
   };
+  /** Resume download section */
+  resume: {
+    /** Whether to display the resume section */
+    display: boolean;
+    /** Title for the resume section */
+    title: string;
+    /** Description for the resume section */
+    description: React.ReactNode;
+    /** Public path to the resume file */
+    filePath: string;
+    /** Label for the download button */
+    label: string;
+  };
 }
 
 /**
