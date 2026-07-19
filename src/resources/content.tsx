@@ -266,7 +266,7 @@ const about: About = {
     display: true,
     title: "Resume",
     description: <>Download my resume to view my experience, projects, and skills.</>,
-    filePath: "/Documents/SiddheshDangeResume.pdf",
+    filePath: "/Documents/updatedcv.pdf",
     label: "Download Resume",
   },
  
