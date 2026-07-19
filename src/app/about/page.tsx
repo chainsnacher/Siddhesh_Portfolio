@@ -35,6 +35,11 @@ export default function About() {
       items: [],
     },
     {
+      title: about.experience.title,
+      display: about.experience.display,
+      items: about.experience.works.map((work) => work.company),
+    },
+    {
       title: about.work.title,
       display: about.work.display,
       items: about.work.experiences.map((experience) => experience.company),
@@ -205,6 +210,65 @@ export default function About() {
             <Column textVariant="body-default-l" fillWidth gap="m" marginBottom="xl">
               {about.intro.description}
             </Column>
+          )}
+
+          {about.experience.display && (
+            <>
+              <Heading as="h2" id={about.experience.title} variant="display-strong-s" marginBottom="m">
+                {about.experience.title}
+              </Heading>
+              <Column fillWidth gap="l" marginBottom="40">
+                {about.experience.works.map((work, index) => (
+                  <Column key={`${work.company}-${work.role}-${index}`} fillWidth>
+                    <Row fillWidth horizontal="between" vertical="end" marginBottom="4">
+                      <Text id={work.company} variant="heading-strong-l">
+                        {work.company}
+                      </Text>
+                      <Text variant="heading-default-xs" onBackground="neutral-weak">
+                        {work.timeframe}
+                      </Text>
+                    </Row>
+                    <Text variant="body-default-s" onBackground="brand-weak" marginBottom="m">
+                      {work.role}
+                    </Text>
+                    <Column as="ul" gap="16">
+                      {work.achievements.map(
+                        (achievement: React.ReactNode, index: number) => (
+                          <Text
+                            as="li"
+                            variant="body-default-m"
+                            key={`${work.company}-${index}`}
+                          >
+                            {achievement}
+                          </Text>
+                        ),
+                      )}
+                    </Column>
+                    {work.images && work.images.length > 0 && (
+                      <Row fillWidth paddingTop="m" paddingLeft="40" gap="12" wrap>
+                        {work.images.map((image, index) => (
+                          <Row
+                            key={index}
+                            border="neutral-medium"
+                            radius="m"
+                            minWidth={image.width}
+                            height={image.height}
+                          >
+                            <Media
+                              enlarge
+                              radius="m"
+                              sizes={image.width.toString()}
+                              alt={image.alt}
+                              src={image.src}
+                            />
+                          </Row>
+                        ))}
+                      </Row>
+                    )}
+                  </Column>
+                ))}
+              </Column>
+            </>
           )}
 
           {about.work.display && (

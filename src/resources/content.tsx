@@ -104,6 +104,34 @@ const about: About = {
       </>
     ),
   },
+   experience: {
+    display: true,
+    title: "Experience",
+    works: [
+      {
+        company: "D4X",
+        timeframe: "2024-2025",
+        role: "Mobile App Development",
+        achievements: [
+          <>
+            Skills: Flutter, Dart, Firebase, RESTful APIs, Git, Agile Development, UI/UX Design Principles
+          </>,
+          <>
+            Credential ID  1knl9freew_
+          </>,
+        ],
+        images: [
+          // optional: leave the array empty if you don't want to display images
+          {
+            src: "/images/projects/project-01/experience1.png",
+            alt: "certificate image",
+            width: 16,
+            height: 11,
+          },
+        ],
+      },
+    ]
+  },
   work: {
     display: true, // set to false to hide this section
     title: "Certificates",
@@ -137,7 +165,7 @@ const about: About = {
         achievements: [
           <>
             Published In IJRAR ( www.ijrar.org ) UGC Approved (Journal No : 43602) & 7.17 Impact Factor
-Volume 13 Issue 2 April 2026, Date of Publication: 21-April-2026
+            Volume 13 Issue 2 April 2026, Date of Publication: 21-April-2026
 
           </>,
           <>
@@ -221,7 +249,6 @@ Volume 13 Issue 2 April 2026, Date of Publication: 21-April-2026
             name: "SQLite",
             icon: "sqlite",
           },
-        
         ],
         // optional: leave the array empty if you don't want to display images
         images: [
@@ -242,6 +269,7 @@ Volume 13 Issue 2 April 2026, Date of Publication: 21-April-2026
     filePath: "/Documents/SiddheshDangeResume.pdf",
     label: "Download Resume",
   },
+ 
 };
 
 const blog: Blog = {
